@@ -1,4 +1,4 @@
-module Giphy exposing (..)
+module Main exposing (..)
 
 import Messages exposing (..)
 import Models exposing (..)

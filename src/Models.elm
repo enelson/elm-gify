@@ -7,10 +7,7 @@ import Dict exposing (..)
 -- MODELS
 
 type alias Image =
-  { url : String
-  , width : String
-  , height : String
-  , size : String
+  { url : Maybe String
   }
 
 type alias ImageRecord =

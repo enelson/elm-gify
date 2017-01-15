@@ -5,29 +5,42 @@ import Models exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Dict exposing (..)
+import Maybe exposing (..)
 
 
 -- VIEWS
 
-getImageUrl : ImageRecord -> String
-getImageUrl imageRecord =
-    case imageRecord.images.fixed_width_small_still of
-        Just image ->
-            image.url
-
-        Nothing ->
-            imageRecord.images.fixed_height.url
-
 viewUrl : ImageRecord -> Html Msg
 viewUrl imageRecord =
-    li []
-       [ span []
-              [ a [ href imageRecord.images.fixed_height.url ]
-                  [ text imageRecord.slug ]
-              , img [ src (getImageUrl imageRecord) ]
-                    []
-              ]
-       ]
+    let
+        key =
+            withDefault "fixed_height" (List.head (Dict.keys imageRecord.images))
+
+        image =
+            Dict.get key imageRecord.images
+
+        url =
+            case image of
+              Just imageObj ->
+                case imageObj.url of
+                  Just url ->
+                      withDefault "" imageObj.url
+
+                  Nothing ->
+                      ""
+
+              Nothing ->
+                ""
+    in
+        li []
+           [ span []
+                  [ a [ href url ]
+                      [ text imageRecord.slug ]
+                  , img [ src url ]
+                        []
+                  ]
+           ]
 
 viewUrlList : List ImageRecord -> Html Msg
 viewUrlList imageRecordList =

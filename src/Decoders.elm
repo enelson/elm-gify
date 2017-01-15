@@ -2,17 +2,15 @@ module Decoders exposing (..)
 
 import Models exposing (..)
 import Json.Decode as Decode exposing (Decoder, field, succeed, dict)
+import Maybe exposing (..)
 
 
 -- DECODERS
 
 imageDecoder : Decoder Image
 imageDecoder =
-    Decode.map4 Image
-        (field "url" Decode.string)
-        (field "width" Decode.string)
-        (field "height" Decode.string)
-        (field "size" Decode.string)
+    Decode.map Image
+        (Decode.maybe (field "url" Decode.string))
 
 imageRecordDecoder : Decoder ImageRecord
 imageRecordDecoder =
