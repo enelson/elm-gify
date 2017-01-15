@@ -9,3 +9,4 @@ import Http
 type Msg
   = ImageSearch
   | ImageResults (Result Http.Error ImageResponse)
+  | SearchText String

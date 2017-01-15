@@ -10,22 +10,25 @@ import Decoders exposing (..)
 
 url : String
 url =
-    "http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC&limit=10"
+    "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&limit=10&q="
 
-queryImages : Cmd Msg
-queryImages =
+queryImages : String -> Cmd Msg
+queryImages searchText =
     imageResponseDecoder
-      |> Http.get url
+      |> Http.get (url ++ searchText)
       |> Http.send ImageResults
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
         ImageSearch ->
-            ( model, queryImages )
+            ( model, queryImages "" )
 
         ImageResults (Ok result) ->
             ( { model | images = result.data }, Cmd.none )
 
         ImageResults (Err error) ->
             ( { model | error = (toString error) }, Cmd.none )
+
+        SearchText searchText ->
+            ( model, queryImages searchText )

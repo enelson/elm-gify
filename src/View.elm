@@ -4,7 +4,7 @@ import Messages exposing (..)
 import Models exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
+import Html.Events exposing (onClick, onInput)
 import Dict exposing (..)
 import Maybe exposing (..)
 
@@ -56,8 +56,10 @@ view model =
         [ div []
               [
                 text "Enter search: "
-                , input [] []
-                , button [onClick ImageSearch] [text "Go"]
+              , input [ id "queryString"
+                      , onInput SearchText
+                      ] []
+              , button [onClick (SearchText "cats")] [text "Go"]
               ]
         , div []
               [ viewUrlList model.images ]
