@@ -40,9 +40,10 @@ viewUrl imageRecord =
                               []
                         ]
                   , div [ class "media-body" ]
-                        [ h4 [ class "media-heading" ] [ text "URL" ]
+                        [ h4 [ class "media-heading" ]
+                             [ text (imageRecord.slug ++ " (Rating: [" ++ imageRecord.rating ++ "])") ]
                         , a [ href url ]
-                            [ text imageRecord.slug ]
+                            [ text url ]
                         ]
                   ]
            ]
@@ -66,7 +67,6 @@ viewError model =
             True
           else
             False
-
     in
         div [ class "alert alert-danger", hidden modelSet ]
             [ text model.error ]
