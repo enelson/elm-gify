@@ -14,7 +14,7 @@ initialModel =
     }
 
 
-
+main : Program Never Model Msg
 main =
   Html.program
     { init = (initialModel, Cmd.none)

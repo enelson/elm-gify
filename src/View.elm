@@ -58,6 +58,19 @@ viewUrlList imageRecordList =
                       listOfUrls
               ]
 
+viewError : Model -> Html Msg
+viewError model =
+    let
+        modelSet =
+          if (String.isEmpty model.error) then
+            True
+          else
+            False
+
+    in
+        div [ class "alert alert-danger", hidden modelSet ]
+            [ text model.error ]
+
 view : Model -> Html Msg
 view model =
     div []
@@ -81,6 +94,5 @@ view model =
                 ]
         , div []
               [ viewUrlList model.images ]
-        , div [ class "alert alert-danger", hidden True ]
-              [ text model.error ]
+        , (viewError model)
         ]
