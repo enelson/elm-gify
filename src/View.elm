@@ -33,12 +33,17 @@ viewUrl imageRecord =
               Nothing ->
                 ""
     in
-        li []
-           [ span []
-                  [ a [ href url ]
-                      [ text imageRecord.slug ]
-                  , img [ src url ]
-                        []
+        tr []
+           [ div  [ class "media" ]
+                  [ div [ class "media-left" ]
+                        [ img [ src url, height 100, width 100, class "thumbnail" ]
+                              []
+                        ]
+                  , div [ class "media-body" ]
+                        [ h4 [ class "media-heading" ] [ text "URL" ]
+                        , a [ href url ]
+                            [ text imageRecord.slug ]
+                        ]
                   ]
            ]
 
@@ -48,21 +53,34 @@ viewUrlList imageRecordList =
         listOfUrls =
           List.map viewUrl imageRecordList
     in
-        ul [] listOfUrls
+        table [ class "table table-striped" ]
+              [ tbody []
+                      listOfUrls
+              ]
 
 view : Model -> Html Msg
 view model =
     div []
-        [ div []
-              [
-                text "Enter search: "
-              , input [ id "queryString"
-                      , onInput SearchText
-                      ] []
-              , button [onClick (SearchText "cats")] [text "Go"]
-              ]
+        [ Html.form
+                [ class "form-horizontal" ]
+                [ div [ class "form-group" ]
+                      [ label [ class "col-sm-2 control-label" ] [ text "Enter search: " ]
+                      , div [ class "col-sm-10" ]
+                            [ input [ id "queryString"
+                                    , onInput SearchText
+                                    , class "form-control"
+                                    ] []
+                            ]
+                      ]
+                , div [ class "form-group" ]
+                      [ div [ class "col-sm-offset-2 col-sm-10" ]
+                            [ button [ class "btn btn-primary", onClick (SearchText "cats")]
+                                     [ text "Go" ]
+                            ]
+                      ]
+                ]
         , div []
               [ viewUrlList model.images ]
-        , div []
+        , div [ class "alert alert-danger", hidden True ]
               [ text model.error ]
         ]
