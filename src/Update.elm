@@ -21,8 +21,8 @@ queryImages searchText =
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
     case msg of
-        ImageSearch ->
-            ( model, queryImages "" )
+        CloseError ->
+            ( { model | error = "" }, Cmd.none )
 
         ImageResults (Ok result) ->
             ( { model | images = result.data }, Cmd.none )

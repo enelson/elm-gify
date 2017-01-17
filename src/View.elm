@@ -54,22 +54,29 @@ viewUrlList imageRecordList =
         listOfUrls =
           List.map viewUrl imageRecordList
     in
-        table [ class "table table-striped" ]
-              [ tbody []
+        div [ class "panel panel-success" ]
+            [ div [ class "panel-heading" ]
+                  [ text "Search Results" ]
+            , table [ class "table table-striped" ]
+                    [ tbody []
                       listOfUrls
-              ]
+                    ]
+            ]
 
 viewError : Model -> Html Msg
 viewError model =
     let
-        modelSet =
+        hideError =
           if (String.isEmpty model.error) then
             True
           else
             False
     in
-        div [ class "alert alert-danger", hidden modelSet ]
-            [ text model.error ]
+        div [ class "alert alert-danger alert-dismissable", hidden hideError ]
+            [ button [ class "close", onClick CloseError ]
+                     [ span [ class "glyphicon glyphicon-remove" ] [] ]
+            , text model.error
+            ]
 
 view : Model -> Html Msg
 view model =
@@ -78,21 +85,18 @@ view model =
                 [ class "form-horizontal" ]
                 [ div [ class "form-group" ]
                       [ label [ class "col-sm-2 control-label" ] [ text "Enter search: " ]
-                      , div [ class "col-sm-10" ]
-                            [ input [ id "queryString"
+                      , div [ class "col-md-6" ] [ input [ id "queryString"
                                     , onInput SearchText
                                     , class "form-control"
-                                    ] []
-                            ]
+                              ] []]
                       ]
-                , div [ class "form-group" ]
-                      [ div [ class "col-sm-offset-2 col-sm-10" ]
-                            [ button [ class "btn btn-primary", onClick (SearchText "cats")]
-                                     [ text "Go" ]
-                            ]
-                      ]
+                -- , div [ class "form-group" ]
+                --       [ div [ class "col-sm-offset-2 col-sm-10" ]
+                --             [ button [ class "btn btn-primary", onClick (SearchText "cats")]
+                --                      [ text "Go" ]
+                --             ]
+                --       ]
                 ]
-        , div []
-              [ viewUrlList model.images ]
+        , viewUrlList model.images
         , (viewError model)
         ]

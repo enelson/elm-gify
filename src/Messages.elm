@@ -7,6 +7,6 @@ import Http
 -- MESSAGES
 
 type Msg
-  = ImageSearch
+  = CloseError
   | ImageResults (Result Http.Error ImageResponse)
   | SearchText String
